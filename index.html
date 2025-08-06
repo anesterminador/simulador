@@ -156,26 +156,36 @@
       .orientacao {
         width: 95%;
         font-size: 1em;
-        margin-bottom: 2px;
+        line-height: 1.0; /* Inclua se quiser manter */
+        margin-bottom: 6px; /* Inclua se quiser ajustar */
       }
-
+    
       #welcomeScreen {
         overflow-y: auto;
         justify-content: flex-start;
         align-items: center;
         padding-bottom: 32px; /* Garante espaço no final se o conteúdo for longo */
+        position: absolute;
+        min-height: 100vh;
+        height: auto;
+        padding-bottom: 48px; /* Mais espaço para o botão */
+        box-sizing: border-box;
+        /* Cuidado: padding-bottom está duplicado, escolha um valor */
       }
     
-      /* Texto de boas-vindas */
       #welcomeScreen h1 {
         font-size: 2em;
+        width: 95%;
+        color: #007b8f;
+        margin-bottom: 10px;
+        text-align: center;
       }
+    
       #welcomeScreen p {
         font-size: 1em;
         width: 90%;
       }
-
-      /* Temporizadores */
+    
       #timers {
         padding: 10px 0;
       }
@@ -184,21 +194,18 @@
         font-size: 2em;
         padding: 8px 16px;
       }
-      /* Reposiciona o timer regressivo para fluxo natural */
       #regressiveTimer {
         position: static;
         margin-top: 10px;
-        color: white; /* mantém contraste */
+        color: white;
       }
-
-      /* Imagem */
+    
       .image-container {
         width: 95vw;
         max-height: none;
         aspect-ratio: auto;
       }
-
-      /* Rodapé */
+    
       #footer {
         flex-direction: column;
         padding: 10px;
