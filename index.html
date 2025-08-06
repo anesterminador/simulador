@@ -189,21 +189,34 @@
       }
     
       #timers {
+        position: relative;
+        width: 100vw;
         padding: 10px 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        display: block; /* Remover flex para facilitar controle individual */
       }
-      #progressiveTimer,
-      #regressiveTimer {
+      #progressiveTimer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        text-align: center;
         font-size: 1.2em;
-        padding: 5px 5px;
+        padding: 5px 0;
+        z-index: 2;
       }
       #regressiveTimer {
-        position: static;
-        margin-top: 0px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: auto;
+        font-size: 1.2em;
+        padding: 5px 12px;
+        z-index: 3;
         color: white;
+        background: #000; /* Garante contraste em cima do progressiveTimer */
+        border-radius: 0 0 0 8px;
+        border: none;
+        margin: 0;
       }
     
       .image-container {
@@ -230,7 +243,7 @@
 </head>
 <body>
   <div id="welcomeScreen">
-    <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview teste11</h1>
+    <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview teste12</h1>
     <p>Clique em iniciar simulado SOMENTE APÓS O PROFESSOR AUTORIZAR.</p>
     <p class="orientacao"><strong>📘 Leia atentamente as orientações abaixo antes de iniciar o simulado.</strong></p>
     <p class="orientacao">- Esta etapa será composta por 4 casos.</p>
