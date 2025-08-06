@@ -39,19 +39,23 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      max-height: 100vh;
       background-color: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 999;
+      overflow-y: auto;
+      padding-bottom: 1200px;
+      padding-top: 50px;
     }
 
     #welcomeScreen h1 {
       font-size: 2.5em;
       color: #007b8f;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     #welcomeScreen p {
