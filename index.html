@@ -161,12 +161,18 @@
       }
     
       #welcomeScreen {
-        position: static;
-        height: auto;
-        max-height: 100vh;
-        overflow-y: auto;
-        padding-bottom: 32px;
+        position: fixed;         /* Mantém cobrindo toda a tela */
+        top: 0;
+        left: 0;
+        width: 100vw;
+        max-height: 100vh;       /* Permite crescer até a altura da tela */
+        overflow-y: auto;        /* Permite scroll DENTRO do welcomeScreen, não no body */
+        padding-bottom: 32px;    /* Espaço extra para botão não colar no final */
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
       }
     
       #welcomeScreen h1 {
@@ -224,7 +230,7 @@
 </head>
 <body>
   <div id="welcomeScreen">
-    <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview teste9</h1>
+    <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview teste10</h1>
     <p>Clique em iniciar simulado SOMENTE APÓS O PROFESSOR AUTORIZAR.</p>
     <p class="orientacao"><strong>📘 Leia atentamente as orientações abaixo antes de iniciar o simulado.</strong></p>
     <p class="orientacao">- Esta etapa será composta por 4 casos.</p>
