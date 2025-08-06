@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado TSA Oral - AnestReview</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #welcomeScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #welcomeScreen h1 {
+      font-size: 2.5em;
+      color: #007b8f;
+      margin-bottom: 10px;
+    }
+
+    #welcomeScreen p {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    #startButton {
+      padding: 15px 30px;
+      font-size: 1.5em;
+      font-weight: bold;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #timers {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px 0 40px 0;
+    }
+
+    #progressiveTimer {
+      font-size: 2.4em;
+      background-color: #000;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    #regressiveTimer {
+      font-size: 2.4em;
+      background-color: #000;
+      color: #fff;
+      border: 2px solid #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      position: absolute;
+      top: 20px;
+      right: 40px;
+    }
+
+    .image-container {
+      width: 80vw;
+      max-height: 80vh;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #image {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    #footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f0f0f0;
+      color: #007b8f;
+      padding: 20px 40px;
+      font-size: 1.26em;
+      font-weight: bold;
+      box-sizing: border-box;
+      z-index: 998;
+    }
+
+    #footer button {
+      background-color: #28a745;
+      color: white;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #endScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #d9534f;
+      z-index: 1000;
+    }
+
+    @media only screen and (max-width: 768px) {
+      /* Texto de boas-vindas */
+      #welcomeScreen h1 {
+        font-size: 2em;
+      }
+      #welcomeScreen p {
+        font-size: 1em;
+        width: 90%;
+      }
+
+      /* Temporizadores */
+      #timers {
+        padding: 10px 0;
+      }
+      #progressiveTimer,
+      #regressiveTimer {
+        font-size: 2em;
+        padding: 8px 16px;
+      }
+      /* Reposiciona o timer regressivo para fluxo natural */
+      #regressiveTimer {
+        position: static;
+        margin-top: 10px;
+        color: white; /* mantém contraste */
+      }
+
+      /* Imagem */
+      .image-container {
+        width: 95vw;
+        max-height: none;
+        aspect-ratio: auto;
+      }
+
+      /* Rodapé */
+      #footer {
+        flex-direction: column;
+        padding: 10px;
+        font-size: 1em;
+      }
+      #footer > div {
+        margin-bottom: 8px;
+      }
+      #footer button {
+        width: 100%;
+        margin-top: 5px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="welcomeScreen">
+    <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview</h1>
+    <p>Clique em iniciar simulado SOMENTE APÓS O PROFESSOR AUTORIZAR.</p>
+<p style="text-align: left; width: margin-bottom: 8px;"><strong>📘 Leia atentamente as orientações abaixo antes de iniciar o simulado.</strong></p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Esta etapa será composta por 4 casos.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Cada caso será composto por 3 problemas.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Teremos um total de 12 problemas.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Você pode ficar quantos minutos desejar em cada problema, dentro do tempo total</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- O tempo total será de 30 minutos.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Você saberá se está atrasado em relação ao tempo total.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- O tempo total de 30 minutos será dividido proporcionalmente entre os 12 problemas.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Caso você esteja com atraso superior ao tempo proporcional, o cronômetro ficará vermelho.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 5px;">- Ao avançar para o próximo problema, você não poderá retornar ao problema anterior.</p>
+<p style="text-align: left; width: 30%; margin-bottom: 18px;"></p>
+
+    <button id="startButton">INICIAR SIMULADO</button>
+
+  </div>
+
+  <div id="timers">
+    <div id="progressiveTimer">00:00</div>
+  </div>
+  <div style="position: absolute; top: 34px; right: 190px; font-size: 1.2em; color: #000;">Tempo restante para o simulado:</div>
+<div id="regressiveTimer">30:00</div>
+
+  <div class="image-container">
+    <img id="image" src="https://i.imgur.com/bw78rux.png" alt="Slide 1">
+  </div>
+
+  <div id="footer">
+  <div id="casoProblema">Caso 1/4 | Problema 1/3</div>
+  <div style="text-align: center; flex: 1;">🎙️ Sua resposta do problema está em gravação.</div>
+  <div style="display: flex; align-items: center; gap: 10px;">
+      <div id="problemaTotal">Problemas: 1/12</div>
+      <button id="nextButton">AVANÇAR</button>
+    </div>
+  </div>
+
+  <script>
+    const progressiveTimer = document.getElementById("progressiveTimer");
+    const regressiveTimer = document.getElementById("regressiveTimer");
+    const nextButton = document.getElementById("nextButton");
+    const image = document.getElementById("image");
+    const casoProblema = document.getElementById("casoProblema");
+    const problemaTotal = document.getElementById("problemaTotal");
+    const startButton = document.getElementById("startButton");
+    const welcomeScreen = document.getElementById("welcomeScreen");
+
+    const images = [
+      "https://i.imgur.com/bw78rux.png",
+      "https://i.imgur.com/YkChXz2.png",
+      "https://i.imgur.com/NPJqSAq.png",
+      "https://i.imgur.com/EcCIHoO.png",
+      "https://i.imgur.com/GUO2GcI.png",
+      "https://i.imgur.com/uLhAXrh.png",
+      "https://i.imgur.com/XkANNLP.png",
+      "https://i.imgur.com/qswiC9G.png",
+      "https://i.imgur.com/sa2ZH01.png",
+      "https://i.imgur.com/veCRV99.png",
+      "https://i.imgur.com/gcJpbHP.gif",
+      "https://i.imgur.com/gHT8wGV.png"
+];
+
+    let currentProblem = 0;
+    let progressiveSeconds = 0;
+    //Limite do Contador Regressivo em Segundos
+    let regressiveSeconds = 1800;
+    let timerInterval;
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimers() {
+      progressiveSeconds++;
+      regressiveSeconds--;
+      progressiveTimer.textContent = formatTime(progressiveSeconds);
+      regressiveTimer.textContent = formatTime(regressiveSeconds);
+
+      regressiveTimer.style.color = regressiveSeconds <= 0 ? 'red' : 'white';
+
+      const tempoLimite = (currentProblem + 1) * 150;
+      progressiveTimer.style.color = progressiveSeconds > tempoLimite ? 'red' : 'white';
+    }
+
+    function startProva() {
+      welcomeScreen.style.display = "none";
+      timerInterval = setInterval(() => {
+        if (regressiveSeconds <= 0 || currentProblem >= 12) {
+          clearInterval(timerInterval);
+          document.getElementById("endScreen").style.display = "flex";
+          nextButton.disabled = true;
+          progressiveTimer.style.color = "red";
+          regressiveTimer.style.color = "red";
+        } else {
+          updateTimers();
+        }
+      }, 1000);
+    }
+
+    startButton.addEventListener("click", startProva);
+
+    nextButton.addEventListener('click', () => {
+      if (currentProblem < 11) {
+        currentProblem++;
+        image.src = images[currentProblem];
+
+        const caso = Math.floor(currentProblem / 3) + 1;
+        const problema = (currentProblem % 3) + 1;
+        casoProblema.textContent = `Caso ${caso}/4 | Problema ${problema}/3`;
+        problemaTotal.textContent = `Problemas: ${currentProblem + 1}/12`;
+      } else {
+        nextButton.disabled = true;
+      }
+    });
+  </script>
+
+<!-- Tela de Tempo Encerrado -->
+<div id="endScreen" style="display: none;">
+  <h1>⏰ Tempo Encerrado!</h1>
+  <p>O simulado foi finalizado.</p>
+</div>
+
+</body>
+</html>
