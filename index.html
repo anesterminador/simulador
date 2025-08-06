@@ -2,8 +2,23 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulado TSA Oral - AnestReview</title>
   <style>
+
+    .orientacao {
+      text-align: left;
+      width: 60%;
+      margin-bottom: 5px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .orientacao {
+        width: 95%;
+        font-size: 1em;
+      }
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -61,7 +76,7 @@
     }
 
     #progressiveTimer {
-      font-size: 2.88em;
+      font-size: 2.4em;
       background-color: #000;
       color: #fff;
       padding: 10px 20px;
@@ -83,6 +98,7 @@
 
     .image-container {
       width: 80vw;
+      max-height: 80vh;
       aspect-ratio: 16/9;
       overflow: hidden;
       display: flex;
@@ -94,11 +110,16 @@
     #image {
       width: 100%;
       height: 100%;
+      max-height: 100%;
+      max-width: 100%;
       object-fit: contain;
     }
 
     #footer {
-      width: 80vw;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -108,6 +129,7 @@
       font-size: 1.26em;
       font-weight: bold;
       box-sizing: border-box;
+      z-index: 998;
     }
 
     #footer button {
@@ -120,40 +142,119 @@
       cursor: pointer;
     }
 
-    /* EFEITO ZOOM-IN/OUT */
-    #nextButton.zoom,
-    #startButton.zoom {
-      animation: zoomEffect 0.3s ease;
+    #endScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #d9534f;
+      z-index: 1000;
     }
 
-    @keyframes zoomEffect {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.1); }
-      100% { transform: scale(1); }
+    @media only screen and (max-width: 768px) {
+      .orientacao {
+        width: 95%;
+        font-size: 1em;
+      }
+
+      #welcomeScreen {
+        overflow-y: auto;
+        justify-content: flex-start;
+        align-items: center;
+        padding-bottom: 32px; /* Garante espaço no final se o conteúdo for longo */
+      }
+    
+      /* Texto de boas-vindas */
+      #welcomeScreen h1 {
+        font-size: 2em;
+      }
+      #welcomeScreen p {
+        font-size: 1em;
+        width: 90%;
+      }
+
+      /* Temporizadores */
+      #timers {
+        padding: 10px 0;
+      }
+      #progressiveTimer,
+      #regressiveTimer {
+        font-size: 2em;
+        padding: 8px 16px;
+      }
+      /* Reposiciona o timer regressivo para fluxo natural */
+      #regressiveTimer {
+        position: static;
+        margin-top: 10px;
+        color: white; /* mantém contraste */
+      }
+
+      /* Imagem */
+      .image-container {
+        width: 95vw;
+        max-height: none;
+        aspect-ratio: auto;
+      }
+
+      /* Rodapé */
+      #footer {
+        flex-direction: column;
+        padding: 10px;
+        font-size: 1em;
+      }
+      #footer > div {
+        margin-bottom: 8px;
+      }
+      #footer button {
+        width: 100%;
+        margin-top: 5px;
+      }
     }
+
   </style>
 </head>
 <body>
   <div id="welcomeScreen">
     <h1>Bem-vindo ao Simulado do TSA Oral - AnestReview</h1>
     <p>Clique em iniciar simulado SOMENTE APÓS O PROFESSOR AUTORIZAR.</p>
+    <p class="orientacao"><strong>📘 Leia atentamente as orientações abaixo antes de iniciar o simulado.</strong></p>
+    <p class="orientacao">- Esta etapa será composta por 4 casos.</p>
+    <p class="orientacao">- Cada caso será composto por 3 problemas.</p>
+    <p class="orientacao">- Teremos um total de 12 problemas.</p>
+    <p class="orientacao">- Você pode ficar quantos minutos desejar em cada problema, dentro do tempo total</p>
+    <p class="orientacao">- O tempo total será de 30 minutos.</p>
+    <p class="orientacao">- Você saberá se está atrasado em relação ao tempo total.</p>
+    <p class="orientacao">- O tempo total de 30 minutos será dividido proporcionalmente entre os 12 problemas.</p>
+    <p class="orientacao">- Caso você esteja com atraso superior ao tempo proporcional, o cronômetro ficará vermelho.</p>
+    <p class="orientacao">- Ao avançar para o próximo problema, você não poderá retornar ao problema anterior.</p>
+    <p class="orientacao"></p>
+
     <button id="startButton">INICIAR SIMULADO</button>
+
   </div>
 
   <div id="timers">
     <div id="progressiveTimer">00:00</div>
   </div>
   <div style="position: absolute; top: 34px; right: 190px; font-size: 1.2em; color: #000;">Tempo restante para o simulado:</div>
-  <div id="regressiveTimer">30:00</div>
+<div id="regressiveTimer">30:00</div>
 
   <div class="image-container">
     <img id="image" src="https://i.imgur.com/bw78rux.png" alt="Slide 1">
   </div>
 
   <div id="footer">
-    <div id="casoProblema">Caso 1/4 | Problema 1/3</div>
-    <div style="text-align: center; flex: 1;">🎙️ Sua resposta do problema está em gravação.</div>
-    <div style="display: flex; align-items: center; gap: 10px;">
+  <div id="casoProblema">Caso 1/4 | Problema 1/3</div>
+  <div style="text-align: center; flex: 1;">🎙️ Sua resposta do problema está em gravação.</div>
+  <div style="display: flex; align-items: center; gap: 10px;">
       <div id="problemaTotal">Problemas: 1/12</div>
       <button id="nextButton">AVANÇAR</button>
     </div>
@@ -182,10 +283,11 @@
       "https://i.imgur.com/veCRV99.png",
       "https://i.imgur.com/gcJpbHP.gif",
       "https://i.imgur.com/gHT8wGV.png"
-    ];
+];
 
     let currentProblem = 0;
     let progressiveSeconds = 0;
+    //Limite do Contador Regressivo em Segundos
     let regressiveSeconds = 1800;
     let timerInterval;
 
@@ -212,19 +314,17 @@
       timerInterval = setInterval(() => {
         if (regressiveSeconds <= 0 || currentProblem >= 12) {
           clearInterval(timerInterval);
+          document.getElementById("endScreen").style.display = "flex";
+          nextButton.disabled = true;
+          progressiveTimer.style.color = "red";
+          regressiveTimer.style.color = "red";
         } else {
           updateTimers();
         }
       }, 1000);
     }
 
-    startButton.addEventListener("click", () => {
-      startButton.classList.add("zoom");
-      setTimeout(() => {
-        startButton.classList.remove("zoom");
-        startProva();
-      }, 300);
-    });
+    startButton.addEventListener("click", startProva);
 
     nextButton.addEventListener('click', () => {
       if (currentProblem < 11) {
@@ -238,12 +338,14 @@
       } else {
         nextButton.disabled = true;
       }
-
-      nextButton.classList.add("zoom");
-      setTimeout(() => {
-        nextButton.classList.remove("zoom");
-      }, 300);
     });
   </script>
+
+<!-- Tela de Tempo Encerrado -->
+<div id="endScreen" style="display: none;">
+  <h1>⏰ Tempo Encerrado!</h1>
+  <p>O simulado foi finalizado.</p>
+</div>
+
 </body>
 </html>
