@@ -365,6 +365,9 @@
     let regressiveSeconds = 1800;
     let timerInterval;
 
+    // ADICIONADO: Flag de pausa
+    let isPaused = false;
+
     function formatTime(seconds) {
       const m = String(Math.floor(seconds / 60)).padStart(2, '0');
       const s = String(seconds % 60).padStart(2, '0');
@@ -386,14 +389,17 @@
     function startProva() {
       welcomeScreen.style.display = "none";
       timerInterval = setInterval(() => {
-        if (regressiveSeconds <= 0 || currentProblem >= 12) {
-          clearInterval(timerInterval);
-          document.getElementById("endScreen").style.display = "flex";
-          nextButton.disabled = true;
-          progressiveTimer.style.color = "red";
-          regressiveTimer.style.color = "red";
-        } else {
-          updateTimers();
+        // ALTERADO: só atualiza os timers se NÃO estiver pausado
+        if (!isPaused) {
+          if (regressiveSeconds <= 0 || currentProblem >= 12) {
+            clearInterval(timerInterval);
+            document.getElementById("endScreen").style.display = "flex";
+            nextButton.disabled = true;
+            progressiveTimer.style.color = "red";
+            regressiveTimer.style.color = "red";
+          } else {
+            updateTimers();
+          }
         }
       }, 1000);
     }
@@ -413,7 +419,27 @@
         nextButton.disabled = true;
       }
     });
+    
+    // ADICIONADO: Função para alternar pausa/despausa dos dois cronômetros
+    function togglePause() {
+      isPaused = !isPaused;
+      // OPCIONAL: muda o fundo para dar feedback visual ao usuário quando pausado
+      if (isPaused) {
+        progressiveTimer.style.backgroundColor = "#888";
+        regressiveTimer.style.backgroundColor = "#888";
+      } else {
+        progressiveTimer.style.backgroundColor = "#000";
+        regressiveTimer.style.backgroundColor = "#000";
+      }
+    }
+
+    // ADICIONADO: Listener de clique para PAUSAR/DESPAUSAR ambos ao clicar em qualquer cronômetro
+    progressiveTimer.addEventListener("click", togglePause);
+    regressiveTimer.addEventListener("click", togglePause);
+
   </script>
+
+
 
 <!-- Tela de Tempo Encerrado -->
 <div id="endScreen" style="display: none;">
