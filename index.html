@@ -185,6 +185,31 @@
       z-index: 1000;
     }
 
+    #finishOverlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.96);
+      display: none;               /* oculto por padrão */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #28a745;              /* verde para “sucesso/encerrado” */
+      z-index: 1001;               /* acima do endScreen (1000) */
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    #finishOverlay p {
+      font-size: 0.6em;
+      color: #333;
+      margin-top: 10px;
+      font-weight: normal;
+    }
+
     @media only screen and (max-width: 768px) {
       .orientacao {
         width: 95%;
@@ -407,7 +432,11 @@
     startButton.addEventListener("click", startProva);
 
     nextButton.addEventListener('click', () => {
-      if (currentProblem < 11) {
+      // última posição válida é images.length - 1 (12 imagens => índice 11)
+      const lastIndex = images.length - 1;
+
+      if (currentProblem < lastIndex) {
+        // ainda há próxima imagem
         currentProblem++;
         image.src = images[currentProblem];
 
@@ -415,10 +444,29 @@
         const problema = (currentProblem % 3) + 1;
         casoProblema.textContent = `Caso ${caso}/4 | Problema ${problema}/3`;
         problemaTotal.textContent = `Problemas: ${currentProblem + 1}/12`;
+
+        // se chegou na última imagem, muda o texto do botão para indicar finalização
+        if (currentProblem === lastIndex) {
+          nextButton.textContent = "FINALIZAR";
+          nextButton.style.backgroundColor = "#dc3545"; // vermelho (Bootstrap danger)
+          nextButton.style.borderColor = "#dc3545";
+        }
+
       } else {
+        // não há mais imagens para carregar -> exibe overlay de "Prova encerrada"
+        const finishOverlay = document.getElementById("finishOverlay");
+        finishOverlay.style.display = "flex";
         nextButton.disabled = true;
+
+        // Opcional: para os timers quando finalizar por imagens
+        if (timerInterval) {
+          clearInterval(timerInterval);
+        }
+        progressiveTimer.style.color = "#28a745";
+        regressiveTimer.style.color = "#28a745";
       }
     });
+
     
     // ADICIONADO: Função para alternar pausa/despausa dos dois cronômetros
     function togglePause() {
@@ -445,6 +493,12 @@
 <div id="endScreen" style="display: none;">
   <h1>⏰ Tempo Encerrado!</h1>
   <p>O simulado foi finalizado.</p>
+</div>
+
+<!-- Overlay de Prova Encerrada ao terminar as imagens -->
+<div id="finishOverlay">
+  <div>✅ Prova encerrada</div>
+  <p>Não feche essa janela, aguarde orientações.</p>
 </div>
 
 </body>
